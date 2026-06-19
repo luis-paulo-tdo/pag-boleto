@@ -10,4 +10,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.13" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PagBoleto.Application\PagBoleto.Application.csproj" />
+    <ProjectReference Include="..\PagBoleto.Infrastructure\PagBoleto.Infrastructure.csproj" />
+    <ProjectReference Include="..\PagBoleto.Contracts\PagBoleto.Contracts.csproj" />
+  </ItemGroup>
 </Project>

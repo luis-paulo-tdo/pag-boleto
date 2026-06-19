@@ -18,4 +18,8 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\PagBoleto.Domain\PagBoleto.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
