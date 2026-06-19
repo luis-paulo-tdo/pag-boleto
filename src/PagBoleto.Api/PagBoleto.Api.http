@@ -1,0 +1,6 @@
+@PagBoleto.Api_HostAddress = http://localhost:5275
+
+GET {{PagBoleto.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
