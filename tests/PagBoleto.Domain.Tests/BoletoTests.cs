@@ -73,4 +73,31 @@ public class BoletoTests
     }
 
     #endregion
+
+    #region MarcarEmProcessamento
+
+    [Fact]
+    public void MarcarEmProcessamento_QuandoPendente_DeveSerSucesso()
+    {
+        var boleto = Boleto.Criar(LinhaDigitavelValida, 150m, VencimentoValido());
+
+        boleto.MarcarEmProcessamento();
+
+        boleto.Status.Should().Be(StatusBoleto.EmProcessamento);
+        boleto.AtualizadoEm.Should().NotBeNull();
+    }
+
+    [Fact]
+    public void MarcarEmProcessamento_JaEmProcessamento_DeveLancarException()
+    {
+        var boleto = Boleto.Criar(LinhaDigitavelValida, 150m, VencimentoValido());
+
+        boleto.MarcarEmProcessamento();
+
+        var act = () => boleto.MarcarEmProcessamento();
+
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    #endregion
 }
