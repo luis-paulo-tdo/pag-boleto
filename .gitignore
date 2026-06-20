@@ -55,3 +55,11 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+/.vs/PagBoleto/CopilotIndices/17.14.1584.41681/CodeChunks.db
+/.vs/PagBoleto/CopilotIndices/17.14.1584.41681/CodeChunks.db-shm
+/.vs/PagBoleto/CopilotIndices/17.14.1584.41681/CodeChunks.db-wal
+/.vs/PagBoleto/CopilotIndices/17.14.1584.41681/SemanticSymbols.db
+/.vs/PagBoleto/CopilotIndices/17.14.1584.41681/SemanticSymbols.db-shm
+/.vs/PagBoleto/CopilotIndices/17.14.1584.41681/SemanticSymbols.db-wal
+/.vs/PagBoleto/FileContentIndex/b864467a-56c7-4cd7-9cfc-6ac4fbbcbb2d.vsidx
+/.vs/PagBoleto/FileContentIndex/e5296d22-8ae2-443a-acea-3649b40c9078.vsidx
