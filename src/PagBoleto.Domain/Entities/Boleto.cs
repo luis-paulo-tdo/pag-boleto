@@ -51,7 +51,7 @@ public class Boleto
     public void MarcarEmProcessamento()
     {
         if (Status != StatusBoleto.Pendente)
-            throw new InvalidOperationException("Não é possível alterar status para 'Em Processamento'");
+            throw new InvalidOperationException("Não é possível alterar status para 'Em Processamento'.");
 
         Status = StatusBoleto.EmProcessamento;
         AtualizadoEm = DateTime.UtcNow;
@@ -60,7 +60,7 @@ public class Boleto
     public void MarcarPago()
     {
         if (Status != StatusBoleto.EmProcessamento)
-            throw new InvalidOperationException("Não é possível alterar status para 'Pago'");
+            throw new InvalidOperationException("Não é possível alterar status para 'Pago'.");
 
         Status = StatusBoleto.Pago;
         AtualizadoEm = DateTime.UtcNow;
@@ -68,6 +68,12 @@ public class Boleto
 
     public void RegistrarFalha(string motivo)
     {
+        if (Status == StatusBoleto.Falha)
+            throw new InvalidOperationException("Não é possível registrar uma falha para um boleto com falha.");
+
+        if (Status == StatusBoleto.Pago)
+            throw new InvalidOperationException("Não é possível registrar uma falha para boletos pagos.");
+
         TentativasProcessamento++;
         MotivoFalha = motivo;
         AtualizadoEm = DateTime.UtcNow;
