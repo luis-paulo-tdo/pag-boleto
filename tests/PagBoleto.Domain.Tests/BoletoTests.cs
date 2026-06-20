@@ -100,4 +100,59 @@ public class BoletoTests
     }
 
     #endregion
+
+    #region MarcarPago
+
+    [Fact]
+    public void MarcarPago_FluxoCompleto_DeveSerValido()
+    {
+        var boleto = Boleto.Criar(LinhaDigitavelValida, 150m, VencimentoValido());
+
+        boleto.MarcarEmProcessamento();
+        boleto.MarcarPago();
+
+        boleto.Status.Should().Be(StatusBoleto.Pago);
+    }
+
+    [Fact]
+    public void MarcarPago_PagarBoletoPendente_DeveLancarException()
+    {
+        var boleto = Boleto.Criar(LinhaDigitavelValida, 150m, VencimentoValido());
+
+        var act = () => boleto.MarcarPago();
+
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public void MarcarPago_QuandoJaPago_DeveLancarException()
+    {
+        var boleto = Boleto.Criar(LinhaDigitavelValida, 150m, VencimentoValido());
+        boleto.MarcarEmProcessamento();
+        boleto.MarcarPago();
+
+        var act = () => boleto.MarcarPago();
+
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public void MarcarPago_BoletoEmFalha_DeveLancarException()
+    {
+        var boleto = Boleto.Criar(LinhaDigitavelValida, 150m, VencimentoValido());
+
+        for (var i = 0; i < 3; ++i)
+        {
+            boleto.MarcarEmProcessamento();
+            boleto.RegistrarFalha("Erro no processamento");
+        }
+
+        boleto.Status.Should().Be(StatusBoleto.Falha);
+
+        var act = () => boleto.MarcarPago();
+
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    #endregion
 }
