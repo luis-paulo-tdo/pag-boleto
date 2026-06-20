@@ -155,4 +155,105 @@ public class BoletoTests
     }
 
     #endregion
+
+    #region RegistrarFalha
+
+    [Fact]
+    public void RegistrarFalha_AbaixoDoLimite_VoltarPendenteIncrementar()
+    {
+        var boleto = Boleto.Criar(LinhaDigitavelValida, 150m, VencimentoValido());
+        boleto.MarcarEmProcessamento();
+
+        boleto.RegistrarFalha("Erro na comunicação com o banco");
+
+        boleto.Status.Should().Be(StatusBoleto.Pendente);
+        boleto.TentativasProcessamento.Should().Be(1);
+        boleto.MotivoFalha.Should().Be("Erro na comunicação com o banco");
+        boleto.AtualizadoEm.Should().NotBeNull();
+    }
+
+    [Fact]
+    public void RegistrarFalha_AtingiuMaxTentativas_TransicionarFalhaDefinitiva()
+    {
+        var boleto = Boleto.Criar(LinhaDigitavelValida, 150m, VencimentoValido());
+
+        for (var i = 0; i < 3; ++i)
+        {
+            boleto.MarcarEmProcessamento();
+            boleto.RegistrarFalha($"Erro #{i + 1}: Falha na comunicação com o banco.");
+        }
+
+        boleto.TentativasProcessamento.Should().Be(3);
+        boleto.Status.Should().Be(StatusBoleto.Falha);
+        boleto.MotivoFalha.Should().Be("Erro #3: Falha na comunicação com o banco.");
+    }
+
+    [Fact]
+    public void RegistrarFalha_SemPassarProcessamento_DeveLancarException()
+    {
+        var boleto = Boleto.Criar(LinhaDigitavelValida, 150m, VencimentoValido());
+
+        boleto.MarcarEmProcessamento();
+        boleto.RegistrarFalha("Erro #1: Falha na comunicação com o banco.");
+
+        boleto.Status.Should().Be(StatusBoleto.Pendente);
+
+        var act = () => boleto.RegistrarFalha("Erro #2: Falha na comunicação com o banco.");
+
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public void RegistrarFalha_EmFalhaDefinitiva_DeveLancarException()
+    {
+        var boleto = Boleto.Criar(LinhaDigitavelValida, 150m, VencimentoValido());
+
+        for (var i = 0; i < 3; ++i)
+        {
+            boleto.MarcarEmProcessamento();
+            boleto.RegistrarFalha($"Erro #{i + 1}: Falha na comunicação com o banco.");
+        }
+
+        boleto.Status.Should().Be(StatusBoleto.Falha);
+
+        var act = () => boleto.RegistrarFalha("Erro #4: Falha na comunicação com o banco.");
+
+        act.Should().Throw<InvalidOperationException>();
+        boleto.TentativasProcessamento.Should().Be(3);
+    }
+
+    [Fact]
+    public void RegistrarFalha_QuandoBoletoPago_DeveLancarException()
+    {
+        var boleto = Boleto.Criar(LinhaDigitavelValida, 150m, VencimentoValido());
+        boleto.MarcarEmProcessamento();
+        boleto.MarcarPago();
+
+        var act = () => boleto.RegistrarFalha("Tentativa indevida após pagamento");
+
+        act.Should().Throw<InvalidOperationException>();
+        boleto.Status.Should().Be(StatusBoleto.Pago);
+    }
+
+    [Fact]
+    public void RegistrarFalha_RespeitandoCicloCompleto_TransicionarFalhaDefinitiva()
+    {
+        var boleto = Boleto.Criar(LinhaDigitavelValida, 150m, VencimentoValido());
+
+        for (var i = 0; i < 2; ++i)
+        {
+            boleto.MarcarEmProcessamento();
+            boleto.RegistrarFalha($"Erro #{i + 1}: Falha na comunicação com o banco.");
+            boleto.Status.Should().Be(StatusBoleto.Pendente);
+        }
+
+        boleto.MarcarEmProcessamento();
+        boleto.RegistrarFalha("Erro #3: Falha na comunicação com o banco.");
+
+        boleto.Status.Should().Be(StatusBoleto.Falha);
+        boleto.TentativasProcessamento.Should().Be(3);
+        boleto.MotivoFalha.Should().Be("Erro #3: Falha na comunicação com o banco.");
+    }
+
+    #endregion
 }
