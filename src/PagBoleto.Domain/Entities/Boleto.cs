@@ -68,14 +68,8 @@ public class Boleto
 
     public void RegistrarFalha(string motivo)
     {
-        if (Status == StatusBoleto.Pendente)
-            throw new InvalidOperationException("Não é possível registrar uma falha para um boleto pendente.");
-
-        if (Status == StatusBoleto.Falha)
-            throw new InvalidOperationException("Não é possível registrar uma falha para um boleto com falha.");
-
-        if (Status == StatusBoleto.Pago)
-            throw new InvalidOperationException("Não é possível registrar uma falha para boletos pagos.");
+        if (Status != StatusBoleto.EmProcessamento)
+            throw new InvalidOperationException($"Não é possível registrar falha para um boleto com status {Status}.");
 
         TentativasProcessamento++;
         MotivoFalha = motivo;
