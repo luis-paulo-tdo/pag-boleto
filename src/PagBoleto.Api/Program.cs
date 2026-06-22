@@ -1,8 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using PagBoleto.Infrastructure.Persistence;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.AddDbContext<PagBoletoDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres"))
+);
 
 var app = builder.Build();
 
