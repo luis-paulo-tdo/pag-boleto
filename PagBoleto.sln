@@ -23,6 +23,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PagBoleto.Domain.Tests", "t
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PagBoleto.Integration.Tests", "tests\PagBoleto.Integration.Tests\PagBoleto.Integration.Tests.csproj", "{9D68FBAF-12DE-46CD-B9D8-17A35C9E94F5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Itens de Solução", "Itens de Solução", "{380A7511-A354-6D7A-0CC0-8FA1F1BA7B6C}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -142,5 +147,8 @@ Global
 		{3BE257E9-6E1F-400E-92A6-B52DF5037068} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{032608ED-34A3-4653-9AED-549487D43C4C} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 		{9D68FBAF-12DE-46CD-B9D8-17A35C9E94F5} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D69C6EF6-271A-40A0-BFA8-701F4E208BBA}
 	EndGlobalSection
 EndGlobal
