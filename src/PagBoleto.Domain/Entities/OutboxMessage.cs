@@ -17,10 +17,10 @@ public class OutboxMessage
     public static OutboxMessage Criar(string tipo, string conteudo)
     {
         if (string.IsNullOrWhiteSpace(tipo))
-            throw new ArgumentNullException("O tipo da mensagem está inválido.", nameof(tipo));
+            throw new ArgumentException("O tipo da mensagem está inválido.", nameof(tipo));
 
         if (string.IsNullOrWhiteSpace(conteudo))
-            throw new ArgumentNullException("O tipo da mensagem está inválido.", nameof(conteudo));
+            throw new ArgumentException("O conteúdo da mensagem está inválido.", nameof(conteudo));
 
         return new OutboxMessage()
         {
