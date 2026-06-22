@@ -67,7 +67,7 @@ public class BoletoTests
         boleto.Vencimento.Should().Be(vencimento);
         boleto.Status.Should().Be(StatusBoleto.Pendente);
         boleto.TentativasProcessamento.Should().Be(0);
-        boleto.MotivoFalha.Should().BeEmpty();
+        boleto.MotivoFalha.Should().BeNull();
         boleto.CriadoEm.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(2));
         boleto.AtualizadoEm.Should().BeNull();
     }

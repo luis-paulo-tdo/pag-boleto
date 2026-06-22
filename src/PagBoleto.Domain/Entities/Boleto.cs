@@ -16,7 +16,7 @@ public class Boleto
 
     public int TentativasProcessamento { get; private set; }
 
-    public string MotivoFalha { get; private set; } = string.Empty;
+    public string? MotivoFalha { get; private set; }
 
     public DateTime CriadoEm { get; private set; }
 
