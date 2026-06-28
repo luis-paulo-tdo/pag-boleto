@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using PagBoleto.Application.Abstractions;
+using PagBoleto.Domain.Interfaces;
 using PagBoleto.Infrastructure.Persistence;
+using PagBoleto.Infrastructure.Persistence.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +13,9 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<PagBoletoDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres"))
 );
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IBoletoRepository, BoletoRepository>();
 
 var app = builder.Build();
 
