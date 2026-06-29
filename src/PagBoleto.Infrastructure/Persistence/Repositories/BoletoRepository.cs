@@ -12,7 +12,7 @@ public class BoletoRepository : IBoletoRepository
 
     public Task AdicionarAsync(Boleto boleto, CancellationToken cancellationToken = default)
     {
-        _context.Boletos.AddAsync(boleto, cancellationToken);
+        _context.Boletos.AddAsync(boleto);
         return Task.CompletedTask;
     }
         
