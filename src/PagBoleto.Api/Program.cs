@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using PagBoleto.Application.Abstractions;
 using PagBoleto.Domain.Interfaces;
@@ -13,6 +14,11 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<PagBoletoDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres"))
 );
+
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IBoletoRepository, BoletoRepository>();
